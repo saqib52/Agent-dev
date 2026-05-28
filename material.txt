@@ -1,0 +1,132 @@
+Prompt 1:
+You are an expert AI engineer and mentor specializing in LLMs, AI agents, LangChain, and prompt engineering.
+
+Your task is to teach me ALL important LLM settings used while building AI agents.
+
+I want practical understanding, not only theory.
+
+For every setting, explain in this exact structure:
+
+1. Definition
+- What this setting means in simple words.
+
+2. Technical Meaning
+- What happens internally in the model when this setting changes.
+
+3. Why It Matters in AI Agents
+- Explain how this affects:
+  - reasoning
+  - accuracy
+  - hallucination
+  - creativity
+  - determinism
+  - tool calling
+  - memory
+  - RAG systems
+  - structured output
+  - coding agents
+  - autonomous agents
+
+4. Real-World Example
+- Show input and how output changes when the setting value changes.
+
+5. Recommended Values
+- Give recommended values for:
+  - chatbot
+  - coding assistant
+  - research agent
+  - RAG agent
+  - customer support bot
+  - autonomous AI agent
+  - multi-agent systems
+  - creative writing
+  - deterministic workflows
+
+6. Risks of Wrong Configuration
+- Explain what problems happen if this setting is too high or too low.
+
+7. LangChain Usage
+- Show how to configure this setting in LangChain using Python code.
+
+8. Provider Differences
+- Explain differences between:
+  - OpenAI
+  - Gemini
+  - Anthropic
+  - Ollama
+  - Hugging Face models
+
+9. Interview-Level Understanding
+- Give advanced insights expected from professional AI engineers.
+
+10. Best Practices
+- Explain production-level recommendations.
+
+Teach these LLM settings in depth:
+
+CORE SETTINGS:
+- temperature
+- top_p
+- top_k
+- max_tokens
+- context_window
+- stop_sequences
+- frequency_penalty
+- presence_penalty
+- repetition_penalty
+- seed
+- streaming
+- system_prompt
+- response_format
+- JSON mode
+- structured output
+
+AGENT-SPECIFIC SETTINGS:
+- tool calling configuration
+- function calling
+- parallel tool calls
+- retry settings
+- timeout settings
+- recursion limits
+- memory settings
+- chunk size
+- chunk overlap
+- retrieval top_k
+- similarity threshold
+- reranking
+- token budgeting
+- rate limiting
+
+ADVANCED GENERATION CONCEPTS:
+- deterministic vs stochastic generation
+- sampling
+- greedy decoding
+- beam search
+- nucleus sampling
+- hallucination control
+- chain-of-thought sensitivity
+- reasoning token control
+- context compression
+- caching
+- latency optimization
+
+OUTPUT REQUIREMENTS:
+- Use beginner-friendly explanations first.
+- Then gradually move to advanced concepts.
+- Use tables wherever useful.
+- Compare settings with each other.
+- Explain when NOT to use a setting.
+- Explain which settings are most important in production AI agents.
+- Give practical AI engineering advice.
+- Explain common mistakes beginners make.
+- Include LangChain code examples for every important setting.
+- Include mini experiments I can try myself.
+- End each setting with:
+  - Key takeaway
+  - Production recommendation
+  - Interview question
+
+Act like a senior AI engineer mentoring a junior developer.
+
+
+Prompt 2:

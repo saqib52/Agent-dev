@@ -1,0 +1,96 @@
+from langchain_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+import os
+load_dotenv()
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+    temperature=0.7,
+    max_tokens=100,
+    top_p=0.9,
+    top_k=50,
+    min_tokens=10,
+    context_window=2048,
+    stop_sequences=["\n\n"],
+    frequency_penalty=0.5,
+    presence_penalty=0.5,
+    seed=42
+)
+
+prompt = input("Enter your Prompt here: ")
+
+for chunk in llm.stream(prompt):
+        print(chunk.content, end="", flush=True)
+
+
+
+
+"""
+TEMPERATURE: Controls the randomness of the output. Higher values (e.g., 0.8) make the output more 
+random, while lower values (e.g., 0.2) make it more focused and deterministic.
+Temperature controls: how predictable or how creative the model behaves during token generation.
+temperature use cases:
+| Use Case          | Recommended Temperature |
+| ----------------- | ----------------------- |
+| Coding agents     | 0.0-0.2                 |
+| RAG systems       | 0.1-0.3                 |
+| Customer support  | 0.2-0.5                 |
+| Research agents   | 0.2-0.4                 |
+| Autonomous agents | 0.3-0.7                 |
+| Brainstorming     | 0.7-1.0                 |
+| Creative writing  | 0.8-1.2                 |
+Many beginners think:
+
+“Higher temperature = smarter AI”
+That is incorrect.
+Temperature affects randomness,variation, creativity, NOT intelligence.
+The model knowledge remains the same.
+"""
+
+"""
+MAX_TOKENS: Sets the maximum number of tokens (words or subwords) that the model can generate in its response. 
+This limits the length of the output. 
+LLMs has two separate token limits: input tokens and output tokens. max_tokens refers to the output token limit, which controls how long the generated response can be.
+This is useful for ensuring that the response does not exceed a certain length,
+which can be important for applications with character limits or when you want to control the verbosity of the output.
+| Item          | Tokens |
+| ------------- | ------ |
+| System Prompt | 500    |
+| Chat History  | 1000   |
+| User Query    | 200    |
+| max_tokens    | 300    |
+Total possible context:
+500 + 1000 + 200 + 300 = 2000 tokens
+
+Why It Matters in AI Agents
+| Factor                | Impact                              |
+| --------------------- | ----------------------------------- |
+| Cost                  | More tokens = more money            |
+| Speed                 | More tokens = slower                |
+| Reasoning depth       | More space to think                 |
+| JSON completion       | Too low may cut output              |
+| Tool calling          | Truncated responses can break tools |
+| Memory usage          | Large outputs consume context       |
+| Multi-agent workflows | Token explosion risk                |
+
+Recommended Values for Agents
+| Use Case            | Recommended max_tokens |
+| ------------------- | ---------------------- |
+| Chatbot             | 200–500                |
+| Coding assistant    | 1000–4000              |
+| RAG agent           | 300–800                |
+| JSON extraction     | 200–600                |
+| Autonomous agent    | 1000–3000              |
+| Research summarizer | 1500–5000              |
+| Customer support    | 150–400                |
+
+"""
+# TOP_P: Implements nucleus sampling, which considers only the most probable tokens whose cumulative probability exceeds a certain threshold (e.g., 0.9). This helps in generating more coherent and contextually relevant responses.
+# TOP_K: Limits the number of tokens to consider at each step to the top K most likely tokens (e.g., 50). This can help in reducing the chances of generating less relevant or nonsensical tokens.
+# MIN_TOKENS: Sets the minimum number of tokens that the model must generate in its
+# response. This ensures that the output is of a certain length, which can be useful for tasks that require more detailed answers.
+# CONTEXT_WINDOW: Defines the maximum number of tokens that the model can consider as input context
+# STOP_SEQUENCES: Specifies one or more sequences of tokens that, when generated, will cause the model to stop generating further output. This can be used to control the format of the response or to prevent the model from generating unwanted content.
+# FREQUENCY_PENALTY: Adjusts the likelihood of the model repeating the same tokens. A higher value (e.g., 0.5) penalizes frequent tokens, encouraging more diverse output.
+# PRESENCE_PENALTY: Similar to frequency penalty, but it penalizes tokens based on whether they have already appeared in the generated text. This encourages the model to introduce new topics or ideas rather than repeating the same ones.
+# SEED: Sets a specific seed for random number generation, which can help in producing reproducible outputs. Using the same seed with the same prompt and settings will yield the same response from the model.  
