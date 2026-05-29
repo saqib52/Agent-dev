@@ -1,0 +1,9 @@
+# Environment variables
+.env
+
+# Poetry virtual env
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc

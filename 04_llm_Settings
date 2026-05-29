@@ -5,9 +5,9 @@ load_dotenv()
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
     google_api_key=os.getenv("GEMINI_API_KEY"),
-    temperature=0.7,
+    temperature=0.2,
     max_tokens=100,
-    top_p=0.9,
+    top_p=0.4,
     top_k=50,
     min_tokens=10,
     context_window=2048,
@@ -26,7 +26,7 @@ for chunk in llm.stream(prompt):
 
 
 """
-TEMPERATURE: Controls the randomness of the output. Higher values (e.g., 0.8) make the output more 
+1-TEMPERATURE: Controls the randomness of the output. Higher values (e.g., 0.8) make the output more 
 random, while lower values (e.g., 0.2) make it more focused and deterministic.
 Temperature controls: how predictable or how creative the model behaves during token generation.
 temperature use cases:
@@ -48,7 +48,7 @@ The model knowledge remains the same.
 """
 
 """
-MAX_TOKENS: Sets the maximum number of tokens (words or subwords) that the model can generate in its response. 
+2-MAX_TOKENS: Sets the maximum number of tokens (words or subwords) that the model can generate in its response. 
 This limits the length of the output. 
 LLMs has two separate token limits: input tokens and output tokens. max_tokens refers to the output token limit, which controls how long the generated response can be.
 This is useful for ensuring that the response does not exceed a certain length,
@@ -76,17 +76,75 @@ Why It Matters in AI Agents
 Recommended Values for Agents
 | Use Case            | Recommended max_tokens |
 | ------------------- | ---------------------- |
-| Chatbot             | 200–500                |
-| Coding assistant    | 1000–4000              |
-| RAG agent           | 300–800                |
-| JSON extraction     | 200–600                |
-| Autonomous agent    | 1000–3000              |
-| Research summarizer | 1500–5000              |
-| Customer support    | 150–400                |
+| Chatbot             | 200-500                |
+| Coding assistant    | 1000-4000              |
+| RAG agent           | 300-800                |
+| JSON extraction     | 200-600                |
+| Autonomous agent    | 1000-3000              |
+| Research summarizer | 1500-5000              |
+| Customer support    | 150-400                |
 
 """
-# TOP_P: Implements nucleus sampling, which considers only the most probable tokens whose cumulative probability exceeds a certain threshold (e.g., 0.9). This helps in generating more coherent and contextually relevant responses.
+"""3-TOP_P: Implements nucleus sampling, top_p controls how many probable token choices the model is allowed to consider before generating the next token.
+| top_p | Behavior     |
+| ----- | ------------ |
+| 0.1   | Very strict  |
+| 0.3   | Conservative |
+| 0.5   | Balanced     |
+| 0.9   | Diverse      |
+| 1.0   | No filtering |
+
+P(t1)+P(t2)+⋯+P(tn​)≥p
+
+“Keep adding the most probable tokens until their total probability becomes greater than or equal to p.
+Suppose the LLM predicts the next word probabilities like this:
+| Token    | Probability |
+| -------- | ----------- |
+| "cat"    | 0.40        |
+| "dog"    | 0.30        |
+| "rabbit" | 0.15        |
+| "tiger"  | 0.10        |
+| "dragon" | 0.05        |
+0.40 + 0.30 + 0.15 + 0.10 + 0.05 = 1.00
+
+if top_p = 0.70
+The model starts from the highest probability token.
+step 1 Add: cat = 0.40
+Current total: 0.40
+Still less than 0.70.
+
+step 2 Add: dog = 0.30
+Current total:  0.40 + 0.30 = 0.70
+Condition satisfied:
+0.40+0.30≥0.70
+So the allowed token pool becomes: cat,dog
+Everything else is discarded.
+
+Top-P controls:
+“How wide the model’s decision space is.”
+Smaller top_p:narrow thinking, focused outputs
+Larger top_p:broader exploration,creative outputs
+
+Math Behind the Scenes:
+1. The model generates a probability distribution over the next possible tokens.
+Prompt
+   ↓
+Neural Network
+   ↓
+Logits
+   ↓
+Softmax
+   ↓
+Probabilities
+   ↓
+Top-P Filtering
+   ↓
+Token Sampling
+"""
+"""
 # TOP_K: Limits the number of tokens to consider at each step to the top K most likely tokens (e.g., 50). This can help in reducing the chances of generating less relevant or nonsensical tokens.
+
+"""
 # MIN_TOKENS: Sets the minimum number of tokens that the model must generate in its
 # response. This ensures that the output is of a certain length, which can be useful for tasks that require more detailed answers.
 # CONTEXT_WINDOW: Defines the maximum number of tokens that the model can consider as input context
