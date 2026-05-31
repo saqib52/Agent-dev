@@ -1,0 +1,31 @@
+from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=os.getenv("GEMINI_API_KEY")
+    )
+
+# Elements of prompt
+instructions = ("You are a helpful assistant that provides concise and accurate answers to "
+"user queries.")
+
+context = ("The user is asking about the benefits of using AI in healthcare. ")
+
+input_data = ("What are the advantages of implementing AI in the healthcare industry?")
+
+question=input("Enter your question here: ")
+
+
+prompt = f"instruction = {instructions}\n\nContext: {context}\n\nUser Input: {input_data}\n\nQuestion: {question}"
+
+for chunk in llm.stream(prompt):
+        print(chunk.content, end="", flush=True)
+
+# few shot_prompt technique: define a few examples of the desired output format in the prompt to guide the model's response.
+# chain of thoughts: break down complex problems into smaller steps to help the model reason through the answer.
+# meta_prompt: include additional information about the user's intent, preferences, 
+# or constraints to help the model generate more relevant responses.
